@@ -1,4 +1,4 @@
-package ru.demi.data.entities;
+package ru.demi.entities;
 
 import java.util.Date;
 

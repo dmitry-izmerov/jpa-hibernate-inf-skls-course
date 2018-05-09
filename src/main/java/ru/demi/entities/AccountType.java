@@ -1,4 +1,4 @@
-package ru.demi.data.entities;
+package ru.demi.entities;
 
 import java.util.Date;
 
@@ -10,25 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="finances_user")
-public class User {
+@Table
+public class AccountType {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Long userId;
+	private Long accountTypeId;
 
 	@Column
-	private String firstName;
-
-	@Column
-	private String lastName;
-
-	@Column
-	private Date birthDate;
-
-	@Column
-	private String emailAddress;
+	private String name;
 
 	@Column
 	private Date lastUpdatedDate;
@@ -42,44 +33,20 @@ public class User {
 	@Column
 	private String createdBy;
 
-	public Long getUserId() {
-		return userId;
+	public Long getAccountTypeId() {
+		return accountTypeId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setAccountTypeId(Long accountTypeId) {
+		this.accountTypeId = accountTypeId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Date getLastUpdatedDate() {
