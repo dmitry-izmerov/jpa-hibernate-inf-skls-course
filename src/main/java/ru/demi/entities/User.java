@@ -38,27 +38,27 @@ public class User {
 	@Column
 	private Long userId;
 
-	@Column
+	@Column(nullable = false)
 	private String firstName;
 
-	@Column
+	@Column(nullable = false)
 	private String lastName;
 
-	@Column
+	@Column(nullable = false)
 	private LocalDate birthDate;
 
-	@Column
+	@Column(nullable = false)
 	private String emailAddress;
 
-	@Column
+	@Column(nullable = false)
 	private LocalDateTime lastUpdatedDate;
 
-	@Column
+	@Column(nullable = false)
 	private String lastUpdatedBy;
 
-	@Column
+	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdDate;
 
-	@Column
+	@Column(nullable = false, updatable = false)
 	private String createdBy;
 }
