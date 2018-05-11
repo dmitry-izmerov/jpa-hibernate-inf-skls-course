@@ -7,7 +7,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -65,4 +68,11 @@ public class User {
 
 	@Transient
     private boolean valid;
+
+	@Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "addressLine1", column = @Column(name = "user_address_line_1")),
+        @AttributeOverride(name = "addressLine2", column = @Column(name = "user_address_line_2"))
+    })
+	private Address address;
 }
