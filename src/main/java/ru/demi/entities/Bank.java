@@ -12,9 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import java.util.ArrayList;
+import javax.persistence.MapKeyColumn;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -42,6 +43,7 @@ public class Bank {
 
     @ElementCollection
     @CollectionTable(name = "bank_contact", joinColumns = @JoinColumn(name = "bank_id"))
+    @MapKeyColumn(name = "position_type")
     @Column(name = "name")
-    private List<String> contacts = new ArrayList<>();
+    private Map<String, String> contacts = new HashMap<>();
 }
