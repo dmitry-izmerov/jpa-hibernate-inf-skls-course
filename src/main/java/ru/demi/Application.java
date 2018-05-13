@@ -3,6 +3,7 @@ package ru.demi;
 import org.hibernate.Session;
 import ru.demi.entities.Address;
 import ru.demi.entities.Bank;
+import ru.demi.entities.Credential;
 import ru.demi.entities.User;
 import ru.demi.util.HibernateUtil;
 
@@ -34,7 +35,13 @@ public class Application {
         User user = new User("Vasya", "Pupkin", birthDate, "vasya@mail.ru", "admin");
         user.getAddresses().add(address1);
         user.getAddresses().add(address2);
-        session.save(user);
+
+        Credential credential = new Credential();
+        credential.setUsername("Vasya Pupkin");
+        credential.setPassword("pass");
+        credential.setUser(user);
+
+        session.save(credential);
 
         // bank
         /*Bank bank = new Bank();

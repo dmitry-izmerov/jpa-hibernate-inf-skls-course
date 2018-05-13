@@ -17,5 +17,6 @@
         <property name="hibernate.implicit_naming_strategy">ru.demi.hibernate.ImplicitNamingStrategyImpl</property>
         <mapping class="ru.demi.entities.User"/>
         <mapping class="ru.demi.entities.Bank"/>
+        <mapping class="ru.demi.entities.Credential"/>
     </session-factory>
 </hibernate-configuration>
