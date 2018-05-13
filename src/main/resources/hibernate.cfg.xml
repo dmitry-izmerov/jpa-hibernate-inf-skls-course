@@ -18,5 +18,7 @@
         <mapping class="ru.demi.entities.User"/>
         <mapping class="ru.demi.entities.Bank"/>
         <mapping class="ru.demi.entities.Credential"/>
+        <mapping class="ru.demi.entities.Account"/>
+        <mapping class="ru.demi.entities.Transaction"/>
     </session-factory>
 </hibernate-configuration>
