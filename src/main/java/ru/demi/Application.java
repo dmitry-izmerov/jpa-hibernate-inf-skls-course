@@ -41,7 +41,9 @@ public class Application {
         credential.setPassword("pass");
         credential.setUser(user);
 
-        session.save(credential);
+        user.setCredential(credential);
+
+        session.save(user);
 
         // bank
         /*Bank bank = new Bank();

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -19,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -80,4 +82,7 @@ public class User {
         @AttributeOverride(name = "addressLine2", column = @Column(name = "user_address_line_2"))
     })
 	private List<Address> addresses = new ArrayList<>();
+
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private Credential credential;
 }
