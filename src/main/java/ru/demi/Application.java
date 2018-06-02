@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Application {
 
@@ -24,18 +25,33 @@ public class Application {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-        Account account = createNewAccount();
-        Budget newBudget = createNewBudget(account);
-        session.save(newBudget);
+        Account account1 = createNewAccount();
+        Account account2 = createNewAccount();
+        User user1 = createNewUser(null);
+        User user2 = createNewUser(null);
 
+        account1.getUsers().add(user1);
+        account1.getUsers().add(user2);
+
+        account2.getUsers().add(user1);
+        account2.getUsers().add(user2);
+
+        session.save(account1);
+        session.save(account2);
         session.getTransaction().commit();
-		session.close();
+
+        Account account = session.get(Account.class, account1.getAccountId());
+        System.out.println(account.getUsers().iterator().next().getFirstName());
+
+        session.close();
 	}
 
     private static User createNewUser(List<Address> addresses) {
         LocalDate birthDate = LocalDate.of(1990, 4, 5);
         User user = new User("Vasya", "Pupkin", birthDate, "vasya@mail.ru", "admin");
-        user.getAddresses().addAll(addresses);
+        if (Objects.nonNull(addresses)) {
+            user.getAddresses().addAll(addresses);
+        }
 
         Credential credential = new Credential();
         credential.setUsername("Vasya Pupkin");
