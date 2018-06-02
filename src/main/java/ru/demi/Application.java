@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import ru.demi.entities.Account;
 import ru.demi.entities.Address;
 import ru.demi.entities.Bank;
+import ru.demi.entities.Budget;
 import ru.demi.entities.Credential;
 import ru.demi.entities.Transaction;
 import ru.demi.entities.TransactionType;
@@ -24,8 +25,8 @@ public class Application {
 		session.beginTransaction();
 
         Account account = createNewAccount();
-        account.getTransactions().addAll(createTransactions(account));
-        session.save(account);
+        Budget newBudget = createNewBudget(account);
+        session.save(newBudget);
 
         session.getTransaction().commit();
 		session.close();
@@ -118,6 +119,17 @@ public class Application {
         transactions.add(transaction2);
 
 	    return transactions;
+    }
+
+    private static Budget createNewBudget(Account account) {
+        Budget budget = new Budget();
+        budget.setName("Russian");
+        budget.setGoalAmount(new BigDecimal("100.00"));
+        budget.setPeriod("monthly");
+
+        budget.getTransactions().addAll(createTransactions(account));
+
+        return budget;
     }
 
 

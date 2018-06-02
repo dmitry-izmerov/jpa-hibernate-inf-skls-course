@@ -20,5 +20,6 @@
         <mapping class="ru.demi.entities.Credential"/>
         <mapping class="ru.demi.entities.Account"/>
         <mapping class="ru.demi.entities.Transaction"/>
+        <mapping class="ru.demi.entities.Budget"/>
     </session-factory>
 </hibernate-configuration>

@@ -3,6 +3,7 @@ package ru.demi.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,7 +24,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long transactionId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
 	private Account account;
 
