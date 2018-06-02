@@ -32,9 +32,13 @@ public class Application {
 
         account1.getUsers().add(user1);
         account1.getUsers().add(user2);
+        user1.getAccounts().add(account1);
+        user2.getAccounts().add(account1);
 
         account2.getUsers().add(user1);
         account2.getUsers().add(user2);
+        user1.getAccounts().add(account2);
+        user2.getAccounts().add(account2);
 
         session.save(account1);
         session.save(account2);
