@@ -46,7 +46,6 @@ public class Account {
 
 	private String createdBy;
 
-	@OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = false)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account", orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
 }

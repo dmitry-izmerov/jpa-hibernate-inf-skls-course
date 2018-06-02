@@ -24,7 +24,7 @@ public class Application {
 		session.beginTransaction();
 
         Account account = createNewAccount();
-        account.getTransactions().addAll(createTransactions());
+        account.getTransactions().addAll(createTransactions(account));
         session.save(account);
 
         session.getTransaction().commit();
@@ -87,7 +87,7 @@ public class Application {
         return account;
     }
 
-    private static List<Transaction> createTransactions() {
+    private static List<Transaction> createTransactions(Account account) {
 	    List<Transaction> transactions = new ArrayList<>();
 
         Transaction transaction1 = new Transaction();
@@ -100,6 +100,7 @@ public class Application {
         transaction1.setCreatedDate(new Date());
         transaction1.setLastUpdatedBy("Vasya");
         transaction1.setLastUpdatedDate(new Date());
+        transaction1.setAccount(account);
 
         Transaction transaction2 = new Transaction();
         transaction2.setTransactionType(TransactionType.DEPOSIT);
@@ -111,6 +112,7 @@ public class Application {
         transaction2.setCreatedDate(new Date());
         transaction2.setLastUpdatedBy("Vasya");
         transaction2.setLastUpdatedDate(new Date());
+        transaction2.setAccount(account);
 
         transactions.add(transaction1);
         transactions.add(transaction2);

@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,7 +23,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long transactionId;
 
-//	private Account account;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+	private Account account;
 
     @Enumerated(value = EnumType.STRING)
 	private TransactionType transactionType;
