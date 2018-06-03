@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +33,9 @@ public class Account {
 
 //	private Bank bank;
 
-//	private AccountType accountType;
+    @Enumerated(EnumType.STRING)
+    @Column
+	private AccountType accountType;
 
 	private String name;
 

@@ -2,12 +2,11 @@ package ru.demi;
 
 import org.hibernate.Session;
 import ru.demi.entities.Account;
+import ru.demi.entities.AccountType;
 import ru.demi.entities.Address;
 import ru.demi.entities.Bank;
 import ru.demi.entities.Budget;
 import ru.demi.entities.Credential;
-import ru.demi.entities.Currency;
-import ru.demi.entities.Market;
 import ru.demi.entities.Transaction;
 import ru.demi.entities.TransactionType;
 import ru.demi.entities.User;
@@ -27,21 +26,15 @@ public class Application {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-        Currency euro = new Currency();
-        euro.setName("EUR");
-        euro.setCountryName("European union");
-        euro.setSymbol("Euro sign");
-        session.save(euro);
-
-        Market market = new Market();
-        market.setMarketName("European market");
-        market.setCurrency(euro);
-        session.save(market);
+        Account account = createNewAccount();
+        account.setAccountType(AccountType.SAVINGS);
+        session.save(account);
 
         session.getTransaction().commit();
 
-        Market gotMarket = session.get(Market.class, market.getMarketId());
-        System.out.println(gotMarket.getCurrency().getName());
+        Account gotAccount = session.get(Account.class, account.getAccountId());
+        System.out.println(gotAccount.getName());
+        System.out.println(gotAccount.getAccountType());
 
         session.close();
 	}
