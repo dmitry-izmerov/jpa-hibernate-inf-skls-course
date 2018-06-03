@@ -7,7 +7,7 @@ import ru.demi.entities.Bank;
 import ru.demi.entities.Budget;
 import ru.demi.entities.Credential;
 import ru.demi.entities.Currency;
-import ru.demi.entities.CurrencyId;
+import ru.demi.entities.Market;
 import ru.demi.entities.Transaction;
 import ru.demi.entities.TransactionType;
 import ru.demi.entities.User;
@@ -27,16 +27,21 @@ public class Application {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-        Currency rub = new Currency();
-        rub.setName("RUB");
-        rub.setCountryName("Russian Federation");
-        rub.setSymbol("P");
+        Currency euro = new Currency();
+        euro.setName("EUR");
+        euro.setCountryName("European union");
+        euro.setSymbol("Euro sign");
+        session.save(euro);
 
-        session.save(rub);
+        Market market = new Market();
+        market.setMarketName("European market");
+        market.setCurrency(euro);
+        session.save(market);
+
         session.getTransaction().commit();
 
-        Currency currency = session.get(Currency.class, new CurrencyId("RUB", "Russian Federation"));
-        System.out.println(currency.getName());
+        Market gotMarket = session.get(Market.class, market.getMarketId());
+        System.out.println(gotMarket.getCurrency().getName());
 
         session.close();
 	}
