@@ -6,6 +6,8 @@ import ru.demi.entities.Address;
 import ru.demi.entities.Bank;
 import ru.demi.entities.Budget;
 import ru.demi.entities.Credential;
+import ru.demi.entities.Currency;
+import ru.demi.entities.CurrencyId;
 import ru.demi.entities.Transaction;
 import ru.demi.entities.TransactionType;
 import ru.demi.entities.User;
@@ -25,27 +27,16 @@ public class Application {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-        Account account1 = createNewAccount();
-        Account account2 = createNewAccount();
-        User user1 = createNewUser(null);
-        User user2 = createNewUser(null);
+        Currency rub = new Currency();
+        rub.setName("RUB");
+        rub.setCountryName("Russian Federation");
+        rub.setSymbol("P");
 
-        account1.getUsers().add(user1);
-        account1.getUsers().add(user2);
-        user1.getAccounts().add(account1);
-        user2.getAccounts().add(account1);
-
-        account2.getUsers().add(user1);
-        account2.getUsers().add(user2);
-        user1.getAccounts().add(account2);
-        user2.getAccounts().add(account2);
-
-        session.save(account1);
-        session.save(account2);
+        session.save(rub);
         session.getTransaction().commit();
 
-        Account account = session.get(Account.class, account1.getAccountId());
-        System.out.println(account.getUsers().iterator().next().getFirstName());
+        Currency currency = session.get(Currency.class, new CurrencyId("RUB", "Russian Federation"));
+        System.out.println(currency.getName());
 
         session.close();
 	}
