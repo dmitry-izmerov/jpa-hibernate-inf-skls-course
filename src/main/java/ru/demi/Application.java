@@ -2,11 +2,13 @@ package ru.demi;
 
 import org.hibernate.Session;
 import ru.demi.entities.Account;
-import ru.demi.entities.AccountType;
 import ru.demi.entities.Address;
 import ru.demi.entities.Bank;
+import ru.demi.entities.Bond;
 import ru.demi.entities.Budget;
 import ru.demi.entities.Credential;
+import ru.demi.entities.Portfolio;
+import ru.demi.entities.Stock;
 import ru.demi.entities.Transaction;
 import ru.demi.entities.TransactionType;
 import ru.demi.entities.User;
@@ -14,6 +16,7 @@ import ru.demi.util.HibernateUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,15 +29,22 @@ public class Application {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-        Account account = createNewAccount();
-        account.setAccountType(AccountType.SAVINGS);
-        session.save(account);
+        Portfolio portfolio = new Portfolio();
+        portfolio.setName("test invest");
+
+        Stock stock = createStock();
+        stock.setPortfolio(portfolio);
+        Bond bond = createBond();
+        bond.setPortfolio(portfolio);
+
+        portfolio.getInvestments().add(stock);
+        portfolio.getInvestments().add(bond);
+
+        session.save(portfolio);
 
         session.getTransaction().commit();
-
-        Account gotAccount = session.get(Account.class, account.getAccountId());
-        System.out.println(gotAccount.getName());
-        System.out.println(gotAccount.getAccountType());
+        Portfolio gotPortfolio = session.get(Portfolio.class, portfolio.getPortfolioId());
+        System.out.println(gotPortfolio.getName());
 
         session.close();
 	}
@@ -141,5 +151,24 @@ public class Application {
         return budget;
     }
 
+    private static Bond createBond() {
+        Bond bond = new Bond();
+        bond.setName("bond");
+        bond.setIssuer("Vasya");
+        bond.setPurchaseDate(LocalDateTime.now());
+        bond.setInterestRate(new BigDecimal(1.5));
+        bond.setMaturityDate(LocalDateTime.of(2018, 11, 11, 2, 0, 0));
+        bond.setValue(new BigDecimal(5.5));
+        return bond;
+    }
 
+    private static Stock createStock() {
+        Stock stock = new Stock();
+        stock.setName("stock");
+        stock.setIssuer("Vasya");
+        stock.setPurchaseDate(LocalDateTime.now());
+        stock.setQuantity(100L);
+        stock.setSharePrice(new BigDecimal(4.4));
+        return stock;
+    }
 }

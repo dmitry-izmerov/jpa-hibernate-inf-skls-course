@@ -25,5 +25,6 @@
         <mapping class="ru.demi.entities.Market"/>
         <mapping class="ru.demi.entities.Bond"/>
         <mapping class="ru.demi.entities.Stock"/>
+        <mapping class="ru.demi.entities.Portfolio"/>
     </session-factory>
 </hibernate-configuration>
