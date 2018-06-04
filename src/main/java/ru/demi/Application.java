@@ -44,7 +44,9 @@ public class Application {
 
         session.getTransaction().commit();
         Portfolio gotPortfolio = session.get(Portfolio.class, portfolio.getPortfolioId());
-        System.out.println(gotPortfolio.getName());
+        session.refresh(gotPortfolio);
+
+        gotPortfolio.getInvestments().forEach(investment -> System.out.println(investment.getName()));
 
         session.close();
 	}
