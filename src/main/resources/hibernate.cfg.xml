@@ -23,5 +23,7 @@
         <mapping class="ru.demi.entities.Budget"/>
         <mapping class="ru.demi.entities.Currency"/>
         <mapping class="ru.demi.entities.Market"/>
+        <mapping class="ru.demi.entities.Bond"/>
+        <mapping class="ru.demi.entities.Stock"/>
     </session-factory>
 </hibernate-configuration>
