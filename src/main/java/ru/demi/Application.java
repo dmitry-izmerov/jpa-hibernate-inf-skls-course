@@ -113,7 +113,7 @@ public class Application {
 	    List<Transaction> transactions = new ArrayList<>();
 
         Transaction transaction1 = new Transaction();
-        transaction1.setTransactionType(TransactionType.WITHDRAW);
+        transaction1.setTransactionType(TransactionType.Withdrawl);
         transaction1.setTitle("transaction 1");
         transaction1.setAmount(BigDecimal.valueOf(10));
         transaction1.setInitialBalance(BigDecimal.valueOf(100));
@@ -125,7 +125,7 @@ public class Application {
         transaction1.setAccount(account);
 
         Transaction transaction2 = new Transaction();
-        transaction2.setTransactionType(TransactionType.DEPOSIT);
+        transaction2.setTransactionType(TransactionType.Deposit);
         transaction2.setTitle("transaction 2");
         transaction2.setAmount(BigDecimal.valueOf(100));
         transaction2.setInitialBalance(BigDecimal.valueOf(100));
