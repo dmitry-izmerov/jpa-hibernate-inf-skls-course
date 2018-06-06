@@ -1,5 +1,6 @@
 package ru.demi;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.query.Query;
@@ -24,9 +25,10 @@ public class HqlApplication {
             tx = session.beginTransaction();
 
             Query query = session.createQuery("select t from Transaction t" +
-                " where t.transactionType = :type" +
-                " and t.amount >= 100");
-            query.setParameter("type", TransactionType.Withdrawl);
+                " where t.transactionType = ?" +
+                " and t.amount >= ?");
+            query.setParameter(0, TransactionType.Withdrawl);
+            query.setParameter(1, new BigDecimal(100));
             List<Transaction> transactions = query.list();
 
             transactions.forEach(item -> System.out.println(item.getTitle()));

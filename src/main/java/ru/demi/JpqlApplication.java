@@ -2,6 +2,7 @@ package ru.demi;
 
 import ru.demi.entities.Transaction;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,10 +27,13 @@ public class JpqlApplication {
             tx.begin();
 
             String jsql = "from Transaction t" +
-                " where (t.amount between 30 and 100)" +
+                " where (t.amount between ?1 and ?2)" +
                 " and title like '%s'" +
                 " order by t.title desc";
             TypedQuery<Transaction> query = em.createQuery(jsql, Transaction.class);
+            query.setParameter(1, new BigDecimal(30));
+            query.setParameter(2, new BigDecimal(100));
+
             List<Transaction> transactions = query.getResultList();
 
             transactions.forEach(item -> System.out.println(item.getTitle()));
