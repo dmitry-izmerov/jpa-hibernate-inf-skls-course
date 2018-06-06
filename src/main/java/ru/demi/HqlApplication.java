@@ -23,7 +23,9 @@ public class HqlApplication {
             session = factory.openSession();
             tx = session.beginTransaction();
 
-            Query query = session.createQuery("select t from Transaction t where t.transactionType = :type");
+            Query query = session.createQuery("select t from Transaction t" +
+                " where t.transactionType = :type" +
+                " and t.amount >= 100");
             query.setParameter("type", TransactionType.Withdrawl);
             List<Transaction> transactions = query.list();
 

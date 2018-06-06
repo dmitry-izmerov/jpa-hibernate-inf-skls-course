@@ -25,7 +25,11 @@ public class JpqlApplication {
             tx = em.getTransaction();
             tx.begin();
 
-            TypedQuery<Transaction> query = em.createQuery("from Transaction t order by t.title desc", Transaction.class);
+            String jsql = "from Transaction t" +
+                " where (t.amount between 30 and 100)" +
+                " and title like '%s'" +
+                " order by t.title desc";
+            TypedQuery<Transaction> query = em.createQuery(jsql, Transaction.class);
             List<Transaction> transactions = query.getResultList();
 
             transactions.forEach(item -> System.out.println(item.getTitle()));
