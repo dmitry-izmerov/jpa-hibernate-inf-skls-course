@@ -1,5 +1,8 @@
 package ru.demi;
 
+import ru.demi.entities.TransactionType;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,11 +26,9 @@ public class JpqlApplication {
             tx = em.getTransaction();
             tx.begin();
 
-            String jsql = "select distinct t.account.name," +
-                " concat(concat(t.account.bank.name, ' '), t.account.bank.address.state) from Transaction t" +
-                " where lower(t.transactionType) = 'deposit'" +
-                " and t.amount >= 500";;
-            Query query = em.createQuery(jsql);
+            Query query = em.createNamedQuery("Account.byTypeAndAmount");
+            query.setParameter("type", TransactionType.Deposit);
+            query.setParameter("amount", new BigDecimal(100));
 
             List<Object[]> rows = query.getResultList();
 

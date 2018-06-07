@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,6 +27,15 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NamedQueries({
+    @NamedQuery(name = "Account.largeDeposits", query = "select distinct t.account from Transaction t" +
+        " where lower(t.transactionType) = 'deposit'" +
+        " and t.amount >= 500"),
+    @NamedQuery(name = "Account.byTypeAndAmount", query = "select distinct t.account.name," +
+        " concat(concat(t.account.bank.name, ' '), t.account.bank.address.state) from Transaction t" +
+        " where t.transactionType = :type" +
+        " and t.amount >= :amount")
+})
 @Entity
 public class Account {
 
