@@ -1,14 +1,12 @@
 package ru.demi;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import ru.demi.entities.Transaction;
-import ru.demi.entities.TransactionType;
+import ru.demi.entities.Account;
 import ru.demi.util.HibernateUtil;
 
 public class HqlApplication {
@@ -24,14 +22,13 @@ public class HqlApplication {
             session = factory.openSession();
             tx = session.beginTransaction();
 
-            Query query = session.createQuery("select t from Transaction t" +
-                " where t.transactionType = ?" +
-                " and t.amount >= ?");
-            query.setParameter(0, TransactionType.Withdrawl);
-            query.setParameter(1, new BigDecimal(100));
-            List<Transaction> transactions = query.list();
+            Query query = session.createQuery("select distinct t.account from Transaction t" +
+                " where t.transactionType = 'Deposit'" +
+                " and t.amount >= 500");
 
-            transactions.forEach(item -> System.out.println(item.getTitle()));
+            List<Account> accounts = query.list();
+
+            accounts.forEach(item -> System.out.println(item.getName()));
 
             tx.commit();
         } catch (Exception e) {

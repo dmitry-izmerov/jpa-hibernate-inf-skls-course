@@ -1,8 +1,7 @@
 package ru.demi;
 
-import ru.demi.entities.Transaction;
+import ru.demi.entities.Account;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,17 +25,15 @@ public class JpqlApplication {
             tx = em.getTransaction();
             tx.begin();
 
-            String jsql = "from Transaction t" +
-                " where (t.amount between ?1 and ?2)" +
-                " and title like '%s'" +
-                " order by t.title desc";
-            TypedQuery<Transaction> query = em.createQuery(jsql, Transaction.class);
-            query.setParameter(1, new BigDecimal(30));
-            query.setParameter(2, new BigDecimal(100));
+            String jsql = "select distinct a from Transaction t" +
+                " join t.account a" +
+                " where t.transactionType = 'Deposit'" +
+                " and t.amount >= 500";
+            TypedQuery<Account> query = em.createQuery(jsql, Account.class);
 
-            List<Transaction> transactions = query.getResultList();
+            List<Account> accounts = query.getResultList();
 
-            transactions.forEach(item -> System.out.println(item.getTitle()));
+            accounts.forEach(item -> System.out.println(item.getName()));
 
             tx.commit();
         } catch (Exception e) {
