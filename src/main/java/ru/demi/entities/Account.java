@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,7 +32,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long accountId;
 
-//	private Bank bank;
+    @ManyToOne
+    @JoinColumn(name = "bank_id")
+    private Bank bank;
 
     @Enumerated(EnumType.STRING)
     @Column

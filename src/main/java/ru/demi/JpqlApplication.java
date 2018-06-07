@@ -1,7 +1,5 @@
 package ru.demi;
 
-import ru.demi.entities.Account;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -9,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 public class JpqlApplication {
 
@@ -25,15 +23,18 @@ public class JpqlApplication {
             tx = em.getTransaction();
             tx.begin();
 
-            String jsql = "select distinct a from Transaction t" +
-                " join t.account a" +
-                " where t.transactionType = 'Deposit'" +
-                " and t.amount >= 500";
-            TypedQuery<Account> query = em.createQuery(jsql, Account.class);
+            String jsql = "select distinct t.account.name," +
+                " concat(concat(t.account.bank.name, ' '), t.account.bank.address.state) from Transaction t" +
+                " where lower(t.transactionType) = 'deposit'" +
+                " and t.amount >= 500";;
+            Query query = em.createQuery(jsql);
 
-            List<Account> accounts = query.getResultList();
+            List<Object[]> rows = query.getResultList();
 
-            accounts.forEach(item -> System.out.println(item.getName()));
+            rows.forEach(row -> {
+                System.out.println(row[0]);
+                System.out.println(row[1]);
+            });
 
             tx.commit();
         } catch (Exception e) {

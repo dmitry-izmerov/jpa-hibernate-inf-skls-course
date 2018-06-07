@@ -23,7 +23,7 @@ public class HqlApplication {
             tx = session.beginTransaction();
 
             Query query = session.createQuery("select distinct t.account from Transaction t" +
-                " where t.transactionType = 'Deposit'" +
+                " where lower(t.transactionType) = 'deposit'" +
                 " and t.amount >= 500");
 
             List<Account> accounts = query.list();
