@@ -25,7 +25,10 @@ public class HqlApplication {
             Query query = session.getNamedQuery("Account.largeDeposits");
             List<Account> accounts = query.list();
 
-            accounts.forEach(item -> System.out.println(item.getName()));
+            accounts.forEach(item -> {
+                System.out.println(item.getName());
+                System.out.println(item.getBank().getName());
+            });
 
             tx.commit();
         } catch (Exception e) {
