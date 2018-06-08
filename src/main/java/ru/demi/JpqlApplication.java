@@ -1,8 +1,7 @@
 package ru.demi;
 
-import ru.demi.entities.TransactionType;
+import ru.demi.entities.Transaction;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class JpqlApplication {
 
@@ -26,16 +28,15 @@ public class JpqlApplication {
             tx = em.getTransaction();
             tx.begin();
 
-            Query query = em.createNamedQuery("Account.byTypeAndAmount");
-            query.setParameter("type", TransactionType.Deposit);
-            query.setParameter("amount", new BigDecimal(100));
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Transaction> criteriaQuery = builder.createQuery(Transaction.class);
+            Root<Transaction> root = criteriaQuery.from(Transaction.class);
+            criteriaQuery.select(root);
 
-            List<Object[]> rows = query.getResultList();
+            TypedQuery<Transaction> query = em.createQuery(criteriaQuery);
+            List<Transaction> transactions = query.getResultList();
 
-            rows.forEach(row -> {
-                System.out.println(row[0]);
-                System.out.println(row[1]);
-            });
+            transactions.forEach(item -> System.out.println(item.getTitle()));
 
             tx.commit();
         } catch (Exception e) {

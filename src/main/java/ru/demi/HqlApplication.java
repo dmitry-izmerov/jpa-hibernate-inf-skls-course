@@ -2,12 +2,16 @@ package ru.demi;
 
 import java.util.List;
 
-import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import ru.demi.entities.Account;
+import org.hibernate.query.Query;
+import ru.demi.entities.Transaction;
 import ru.demi.util.HibernateUtil;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class HqlApplication {
 
@@ -22,12 +26,15 @@ public class HqlApplication {
             session = factory.openSession();
             tx = session.beginTransaction();
 
-            Query query = session.getNamedQuery("Account.largeDeposits");
-            List<Account> accounts = query.list();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Transaction> criteriaQuery = builder.createQuery(Transaction.class);
+            Root<Transaction> root = criteriaQuery.from(Transaction.class);
+            criteriaQuery.select(root).orderBy(builder.desc(root.get("title")));
+            Query<Transaction> query = session.createQuery(criteriaQuery);
+            List<Transaction> accounts = query.getResultList();
 
             accounts.forEach(item -> {
-                System.out.println(item.getName());
-                System.out.println(item.getBank().getName());
+                System.out.println(item.getTitle());
             });
 
             tx.commit();
