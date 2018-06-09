@@ -1,7 +1,9 @@
 package ru.demi;
 
 import ru.demi.entities.Transaction;
+import ru.demi.entities.TransactionType;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
 public class JpqlApplication {
@@ -30,8 +33,15 @@ public class JpqlApplication {
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Transaction> criteriaQuery = builder.createQuery(Transaction.class);
+
             Root<Transaction> root = criteriaQuery.from(Transaction.class);
-            criteriaQuery.select(root);
+            Path<BigDecimal> amountPath = root.get("amount");
+            Path<TransactionType> typePath = root.get("transactionType");
+
+            criteriaQuery.select(root).where(builder.and(
+                builder.le(amountPath, new BigDecimal(20)),
+                builder.equal(typePath, TransactionType.Withdrawl)
+            ));
 
             TypedQuery<Transaction> query = em.createQuery(criteriaQuery);
             List<Transaction> transactions = query.getResultList();
